@@ -1,0 +1,22 @@
+services:
+  lerobot:
+    build: 
+      context: .
+      dockerfile: docker/lerobot-gpu/Dockerfile
+    image: lerobot:latest
+    environment:
+      - DISPLAY=1
+      - CUDA_VISIBLE_DEVICES=0
+      - NVIDIA_VISIBLE_DEVICES=0   
+      - NVIDIA_DRIVER_CAPABILITIES=all 
+    ports:
+      - 35625:8888
+    # command: python3 -u server.py
+    command: tail -f /dev/null
+    ipc: host 
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
